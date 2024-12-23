@@ -9,6 +9,7 @@ import com.ll.auth.global.jpa.entity.BaseTime;
 import com.ll.auth.global.rsData.RsData;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +68,8 @@ public class ApiV1PostController extends BaseTime {
 
     public record PostWriteReqBody(
             @NotBlank @Length(min = 2) String title,
-            @NotBlank @Length(min = 2) String content){
+            @NotBlank @Length(min = 2) String content,
+            @NotNull Long authorId){
     }
 
     public record PostWriteResBody(
@@ -77,7 +79,8 @@ public class ApiV1PostController extends BaseTime {
 
     @PostMapping
     public RsData<PostWriteResBody> writeItem(@RequestBody @Valid PostWriteReqBody reqBody){
-        Member actor = memberService.findByUsername("user3").get();
+
+        Member actor = memberService.findById(reqBody.authorId).get();
 
         Post post = postService.write(actor, reqBody.title, reqBody.content);
 
