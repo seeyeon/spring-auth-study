@@ -32,16 +32,15 @@ public class ApiV1PostController extends BaseTime {
         String[] credentialsBits = credentials.split("/",2);
 
         long actorId = Long.parseLong(credentialsBits[0]);
-        String actorPassword =credentialsBits[1];
+        String actorPassword = credentialsBits[1];
 
         Member actor = memberService.findById(actorId).get();
 
-        if(!actor.getPassword().equals(actorPassword))
+        if(!actor.getPassword2().equals(actorPassword))
             throw new ServiceException("401-1","비밀번호가 일치하지 않습니다.");
 
         return actor;
     }
-
 
 
     @GetMapping

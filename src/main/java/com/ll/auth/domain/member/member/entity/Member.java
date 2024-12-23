@@ -22,6 +22,11 @@ public class Member extends BaseTime {
     @Column(length = 30)
     private String nickname;
 
+
+    @Column(length = 50)
+    private String password2;
+
+
     //회사 정책상, 필요시 결과값을 username으로 바꿔야하는 경우 손쉽게 바꿀 수 있다
     //확장성과 유연성을 위해 getName() 메서드를 추가해봄
     public String getName() {
