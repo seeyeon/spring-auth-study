@@ -13,6 +13,7 @@ public class ServiceException extends RuntimeException{
     }
 
     public RsData<Void> getRsData(){
+
         return new RsData<>(resultCode, msg);
     }
 
