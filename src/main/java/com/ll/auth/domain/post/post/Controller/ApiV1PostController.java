@@ -52,13 +52,24 @@ public class ApiV1PostController extends BaseTime {
 
     record PostModifyReqBody(
             @NotBlank @Length(min = 2) String title,
-            @NotBlank @Length(min = 2) String content){
+            @NotBlank @Length(min = 2) String content,
+            @NotNull Long authorId,
+            @NotNull @Length(min = 4) String password){
     }
 
     @PutMapping("/{id}")
     @Transactional
     public RsData<PostDto> modifyItem(@PathVariable long id, @RequestBody @Valid PostModifyReqBody reqBody){
+
+        Member actor = memberService.findById(reqBody.authorId).get();
+
+        if(!actor.getPassword().equals(reqBody.password))
+            throw new ServiceException("401-1","비밀번호가 일치하지 않습니다.");
+
         Post post = postService.findById(id).get();
+
+        if(!post.getAuthor().equals(actor))
+            throw new ServiceException("403-1","작성자만 글을 수정 할 권한이 있습니다.");
 
         postService.modify(post, reqBody.title, reqBody.content);
 
