@@ -24,7 +24,7 @@ public class Member extends BaseTime {
 
 
     @Column(unique = true, length = 50)
-    private String password2;
+    private String apikey;
 
 
     //회사 정책상, 필요시 결과값을 username으로 바꿔야하는 경우 손쉽게 바꿀 수 있다

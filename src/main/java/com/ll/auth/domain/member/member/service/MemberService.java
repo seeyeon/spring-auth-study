@@ -34,7 +34,7 @@ public class MemberService {
                 .username(username)
                 .password(password)
                 .nickname(nickname)
-                .password2(UUID.randomUUID().toString())
+                .apikey(UUID.randomUUID().toString())
                 .build();
 
         return memberRepository.save(member);
@@ -49,7 +49,7 @@ public class MemberService {
         return memberRepository.findById(authorId);
     }
 
-    public Optional<Member> findByPassword2(String password2) {
-        return memberRepository.findByPassword2(password2);
+    public Optional<Member> findByApikey(String apikey) {
+        return memberRepository.findByApikey(apikey);
     }
 }
