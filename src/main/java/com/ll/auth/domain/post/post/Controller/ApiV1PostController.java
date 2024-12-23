@@ -8,6 +8,7 @@ import com.ll.auth.domain.post.post.service.PostService;
 import com.ll.auth.global.exceptions.ServiceException;
 import com.ll.auth.global.jpa.entity.BaseTime;
 import com.ll.auth.global.rsData.RsData;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -58,8 +59,9 @@ public class ApiV1PostController extends BaseTime {
 
     @DeleteMapping("/{id}")
     public RsData<Void> deleteItem(@PathVariable long id,
-                                   @RequestHeader("Authorization") String credentials){
+                                   HttpServletRequest req){
 
+        String credentials = req.getHeader(("Authorization"));  //원래 이게 정석
         Member actor = checkAuthentication(credentials);
 
         Post post = postService.findById(id).get();
