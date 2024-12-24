@@ -26,10 +26,11 @@ public class Member extends BaseTime {
     @Column(unique = true, length = 50)
     private String apikey;
 
-
-    //회사 정책상, 필요시 결과값을 username으로 바꿔야하는 경우 손쉽게 바꿀 수 있다
-    //확장성과 유연성을 위해 getName() 메서드를 추가해봄
     public String getName() {
         return this.nickname;
+    }
+
+    public boolean isAdmin(){
+        return "admin".equals(username);  //아이디가 admin인 경우 관리자임
     }
 }
