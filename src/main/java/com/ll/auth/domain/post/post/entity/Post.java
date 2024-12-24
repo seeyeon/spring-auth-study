@@ -75,6 +75,8 @@ public class Post extends BaseTime {
         if(actor == null)
             throw new ServiceException("403-1","로그인 후 이용 가능합니다.");
 
+        if(actor.isAdmin()) return;
+
         if(actor.equals(author)) return;
 
         throw new ServiceException("403-2","작성자만 글을 수정 할 권한이 있습니다.");
