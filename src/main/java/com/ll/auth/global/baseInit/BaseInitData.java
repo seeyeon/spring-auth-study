@@ -69,7 +69,12 @@ public class BaseInitData {
         Member memberUser5 = memberService.findByUsername("user5").get();
 
         Post post1 = postService.write(memberUser1,"축구 하실 분?", "14시까지 22명 모집합니다.");
+        post1.addComment(memberUser2, "저요!");
+        post1.addComment(memberUser3, "저도 할래요!");
+
         Post post2 = postService.write(memberUser1,"농구 하실 분?", "15시까지 12명 모집합니다.");
+        post2.addComment(memberUser4,"저 농구 잘합니다!");
+
         Post post3 = postService.write(memberUser2,"야구 하실 분?", "16시까지 6명 모집합니다.");
         Post post4 = postService.write(memberUser3,"발야구 하실 분?", "16시까지 6명 모집합니다.");
         Post post5 = postService.write(memberUser4,"수영 하실 분?", "16시까지 6명 모집합니다.");
