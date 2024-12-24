@@ -5,7 +5,6 @@ import com.ll.auth.domain.member.member.service.MemberService;
 import com.ll.auth.domain.post.post.dto.PostDto;
 import com.ll.auth.domain.post.post.entity.Post;
 import com.ll.auth.domain.post.post.service.PostService;
-import com.ll.auth.global.exceptions.ServiceException;
 import com.ll.auth.global.jpa.entity.BaseTime;
 import com.ll.auth.global.rq.Rq;
 import com.ll.auth.global.rsData.RsData;
@@ -51,8 +50,7 @@ public class ApiV1PostController extends BaseTime {
 
         Post post = postService.findById(id).get();
 
-        if(!actor.isAdmin() && !post.getAuthor().equals(actor))
-            throw new ServiceException("403-1","작성자만 글을 삭제할 권한이 있습니다.");
+        post.checkActorCanDelete(actor);
 
         postService.delete(post);
 
@@ -73,8 +71,7 @@ public class ApiV1PostController extends BaseTime {
 
         Post post = postService.findById(id).get();
 
-        if(!post.getAuthor().equals(actor))
-            throw new ServiceException("403-1","작성자만 글을 수정 할 권한이 있습니다.");
+        post.checkActorCanModify(actor);
 
         postService.modify(post, reqBody.title, reqBody.content);
 
