@@ -5,10 +5,7 @@ import com.ll.auth.domain.post.post.entity.Post;
 import com.ll.auth.domain.post.post.service.PostService;
 import com.ll.auth.global.exceptions.ServiceException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +24,11 @@ public class ApiV1PostCommentController {
         Post post = postService.findById(postId)
                 .orElseThrow(() -> new ServiceException("401-1","%d번 글은 존재하지 않습니다.".formatted(postId)));
 
-        return post.getComments().reversed().stream().map(PostCommentDto::new).toList();
+        return post
+                .getCommentsByOrderByIdDesc()
+                .stream()
+                .map(PostCommentDto::new)
+                .toList();
     }
 
     @GetMapping("/{id}")
@@ -40,10 +41,7 @@ public class ApiV1PostCommentController {
                 .orElseThrow(() -> new ServiceException("401-1","%d번 글은 존재하지 않습니다.".formatted(postId)));
 
         return post
-                .getComments()
-                .stream()
-                .filter(comment -> comment.getId() ==id)
-                .findFirst()
+                .getCommentById(id)
                 .map(PostCommentDto::new)
                 .orElseThrow(
                         () -> new ServiceException("401-2","%d번 댓글은 존재하지 않습니다.".formatted(id))
